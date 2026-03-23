@@ -204,6 +204,12 @@
             display: none;
         }
 
+        .nav-divider {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 0.5rem 0.75rem;
+        }
+
         /* Scrollbar Styles */
         ::-webkit-scrollbar {
             width: 6px;
@@ -247,7 +253,7 @@
                         <path d="M3 3v18h18"/>
                         <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
                     </svg>
-                    <span class="nav-text">Load Dashboard</span>
+                    <span class="nav-text">Dashboards</span>
                 </a>
                 
                 <a href="#" class="nav-link" data-page="index-ds">
@@ -257,9 +263,10 @@
                         <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
                         <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
                     </svg>
-                    <span class="nav-text">Data Sources</span>
+                    <span class="nav-text">New Dashboard</span>
                 </a>
                 
+                <!-- index-dsi nav disabled – container commented out
                 <a href="#" class="nav-link" data-page="index-dsi">
                     <span class="indicator"></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -267,6 +274,39 @@
                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                     </svg>
                     <span class="nav-text">Dynamic Data Sources</span>
+                </a>
+                -->
+                 <hr class="nav-divider">
+
+                <a href="#" class="nav-link" data-page="ai-chat">
+                    <span class="indicator"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="nav-text">AI Chat</span>
+                </a>
+
+                <a href="#" class="nav-link" data-page="ai-insights">
+                    <span class="indicator"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                    <span class="nav-text">AI Insights</span>
+                </a>
+
+                <hr class="nav-divider">
+
+                <a href="#" class="nav-link" data-page="builder">
+                    <span class="indicator"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                    </svg>
+                    <span class="nav-text">Dashboard Builder</span>
                 </a>
             </nav>
         </aside>
@@ -285,9 +325,20 @@
                     <iframe src="index-ds.html" id="index-ds-frame" title="Data Sources - Reveal SDK Data Source Configuration"></iframe>
                 </div>
                 
-                <div class="iframe-container" id="index-dsi-container">
+                <!-- <div class="iframe-container" id="index-dsi-container">
                     <iframe src="index-dsi.html" id="index-dsi-frame" title="Dynamic Data Sources - Reveal SDK Dynamic Data Source Implementation"></iframe>
+                </div> -->
+
+                <div class="iframe-container" id="ai-chat-container">
+                    <iframe src="AI.html" id="ai-chat-frame" title="AI Chat - Reveal SDK AI Integration"></iframe>
                 </div>
+                <div class="iframe-container" id="ai-insights-container">
+                    <iframe src="Insights.html" id="ai-insights-frame" title="AI Insights - Reveal SDK AI Integration"></iframe>
+                </div>
+                <div class="iframe-container" id="builder-container">
+                    <iframe src="builder.html" id="builder-frame" title="Dashboard Builder - Reveal SDK"></iframe>
+                </div>
+                
             </div>
         </main>
     </div>
@@ -299,7 +350,9 @@
         const pageTitles = {
             'load-dashboard': 'Load Dashboard',
             'index-ds': 'Data Sources',
-            'index-dsi': 'Dynamic Data Sources'
+            'ai-chat': 'AI Chat',
+            'ai-insights': 'AI Insights',
+            'builder': 'Dashboard Builder'
         };
 
         // DOM elements

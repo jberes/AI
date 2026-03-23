@@ -226,6 +226,14 @@
               );
               revealView.dashboard = rvDashboard;
               revealView.startInEditMode = true;
+              revealView.canSaveAs = true;
+
+              revealView.onSave = function(rv, args) {
+                  var name = prompt("Enter a name for the dashboard:", args.name);
+                  if (!name) { args.saveFinished(); return; }
+                  args.name = name;
+                  args.saveFinished();
+              };
           } catch (error) {
               console.error("Error generating dashboard:", error);
           }
