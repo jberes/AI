@@ -10,32 +10,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #F1F5F9;
             height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Sidebar Styles */
+        /* ── Sidebar ────────────────────────────────────── */
         #sidebar {
-            width: 16rem;
-            background-color: white;
+            width: 15rem;
+            background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
             display: flex;
             flex-direction: column;
-            border-right: 1px solid #e5e7eb;
             flex-shrink: 0;
-            transition: width 0.3s ease-in-out;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #sidebar.collapsed {
-            width: 5rem;
+            width: 4.5rem;
         }
 
         #sidebar-header {
@@ -44,81 +44,88 @@
             align-items: center;
             justify-content: flex-start;
             padding: 0 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             flex-shrink: 0;
         }
 
         #sidebar.collapsed #sidebar-header {
             justify-content: center;
-            padding-left: 0;
-            padding-right: 0;
+            padding: 0;
         }
 
         #sidebar-toggle {
             padding: 0.5rem;
-            border-radius: 0.375rem;
+            border-radius: 8px;
             background: none;
             border: none;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-            margin-right: 0.5rem;
+            margin-right: 0.625rem;
             transition: all 0.2s ease;
         }
 
         #sidebar-toggle:hover {
-            background-color: #f3f4f6;
-            color: #6A44FF;
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
         }
 
         #sidebar-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1f2937;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: -0.02em;
         }
 
         #sidebar.collapsed #sidebar-title {
             display: none;
         }
 
-        /* Navigation Styles */
+        /* ── Navigation ─────────────────────────────────── */
         #main-nav {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 1rem 0;
+            padding: 0.75rem 0;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            color: #6b7280;
+            padding: 0.625rem 1rem;
+            color: rgba(255, 255, 255, 0.55);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             transition: all 0.15s ease;
-            border-radius: 0.375rem;
-            margin: 0 0.75rem 0.25rem 0.75rem;
+            border-radius: 8px;
+            margin: 2px 0.625rem;
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.01em;
         }
 
         .nav-link:hover {
-            background-color: #f3f4f6;
-            color: #1f2937;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .nav-link.active-nav-item {
-            background-color: rgba(106, 68, 255, 0.1);
-            color: #6A44FF;
+            background: rgba(79, 70, 229, 0.25);
+            color: #FFFFFF;
             font-weight: 600;
         }
 
         .nav-link svg {
             margin-right: 0.75rem;
             flex-shrink: 0;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.125rem;
+            height: 1.125rem;
+            opacity: 0.7;
+        }
+
+        .nav-link.active-nav-item svg {
+            opacity: 1;
+            color: #A5B4FC;
         }
 
         #sidebar.collapsed .nav-link {
@@ -138,18 +145,25 @@
         .indicator {
             position: absolute;
             left: 0;
-            top: 0;
-            bottom: 0;
-            width: 0.25rem;
-            border-radius: 0 0.25rem 0.25rem 0;
+            top: 6px;
+            bottom: 6px;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
             background-color: transparent;
+            transition: background-color 0.15s ease;
         }
 
         .nav-link.active-nav-item .indicator {
-            background-color: #6A44FF;
+            background-color: #818CF8;
         }
 
-        /* Main Content Styles */
+        .nav-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 0.5rem 0.75rem;
+        }
+
+        /* ── Main Content ───────────────────────────────── */
         .main-container {
             display: flex;
             height: 100vh;
@@ -160,19 +174,13 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            background: #F1F5F9;
         }
 
-        /* Content Area Styles */
         .content-area {
             flex: 1;
             overflow-y: auto;
             padding: 0;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1f2937;
         }
 
         .iframe-container {
@@ -198,36 +206,29 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #6b7280;
-            font-size: 1.125rem;
+            color: #94A3B8;
+            font-size: 0.9375rem;
             font-weight: 500;
             display: none;
         }
 
-        .nav-divider {
-            border: none;
-            border-top: 1px solid #e5e7eb;
-            margin: 0.5rem 0.75rem;
-        }
-
-        /* Scrollbar Styles */
+        /* ── Scrollbar ──────────────────────────────────── */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+            background: transparent;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #d1d5db;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
+            background: rgba(255, 255, 255, 0.25);
         }
     </style>
 </head>
@@ -399,6 +400,7 @@
             // }
             
             currentPage = pageName;
+            setActivePage(pageName);
         }
 
         // Add click listeners to navigation links
@@ -422,9 +424,18 @@
             });
         });
 
+        // Restore the active page from session, or default to load-dashboard
+        function getActivePage() {
+            return sessionStorage.getItem('activePage') || 'load-dashboard';
+        }
+
+        function setActivePage(pageName) {
+            sessionStorage.setItem('activePage', pageName);
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            showPage('load-dashboard');
+            showPage(getActivePage());
         });
     </script>
 </body>

@@ -4,94 +4,181 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Builder</title>
+    <link rel="stylesheet" href="styles/theme.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"  />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
     <script src="https://dl.revealbi.io/reveal/libs/1.8.4/infragistics.reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@revealbi/dom/index.umd.min.js"></script>
+    <script src="styles/reveal-theme.js"></script>
     <style>
       body {
-        font-family: "Roboto", sans-serif;
-        height: 97vh;
+        font-family: var(--font-sans);
+        height: 100vh;
         margin: 0;
+        background: var(--color-bg);
+        -webkit-font-smoothing: antialiased;
+        overflow: hidden;
       }
 
-      .container-fluid {
-        height: 100%;
+      /* ── Override Bootstrap to a simple flexbox layout ── */
+      .builder-layout {
+        display: flex;
+        height: 100vh;
+        width: 100%;
       }
 
-      .row {
-        height: 100%;
+      /* ── Left panel: viz list + preview ─────────── */
+      .builder-sidebar {
+        width: 380px;
+        min-width: 380px;
+        display: flex;
+        flex-direction: column;
+        background: var(--color-surface);
+        border-right: 1px solid var(--color-border);
       }
 
       .list-container {
-        height: 450px;
+        flex: 1;
         overflow-y: auto;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-4) var(--space-5);
+        min-height: 0;
+      }
+
+      .section-label {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: var(--space-3);
       }
 
       .single-viz-container {
-        height: 50%;
-        padding-top: 1rem;
-        border-top: 1px solid #ddd;
+        flex: 1;
+        padding: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
       }
 
-      .generated-dashboard {
-        height: 97%;
+      .single-viz-container .reveal-dash-board {
+        flex: 1;
+        min-height: 0;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
       }
 
       .scrollable-list {
-        max-height: 400px;
         overflow-y: auto;
+        flex: 1;
+        min-height: 0;
+      }
+
+      /* ── List items ─────────────────────────────── */
+      .list-group {
+        margin-bottom: 0;
       }
 
       .list-group-item {
         cursor: pointer;
-        transition: background-color 0.2s ease;
+        transition: all 0.15s ease;
+        border: 1px solid transparent !important;
+        border-bottom: 1px solid var(--color-border-light) !important;
+        border-radius: var(--radius-md) !important;
+        margin-bottom: 2px;
+        padding: var(--space-3) !important;
+        font-size: var(--text-base);
       }
 
       .list-group-item:hover {
-        background-color: #f0f0f0;
+        background-color: var(--color-primary-light) !important;
+        border-color: rgba(79, 70, 229, 0.15) !important;
+      }
+
+      .list-group-item strong {
+        font-weight: 600;
+        color: var(--color-text);
+        font-size: var(--text-base);
+      }
+
+      .list-group-item .text-muted {
+        color: var(--color-text-muted) !important;
+        font-size: var(--text-xs);
       }
 
       .selected {
-        background-color: #e0e0e0;
+        background-color: var(--color-primary-light) !important;
+        border-color: var(--color-primary) !important;
+      }
+
+      .list-group-item .material-icons {
+        color: var(--color-primary) !important;
+        font-size: 20px;
+        opacity: 0.7;
+        transition: opacity 0.15s;
+      }
+
+      .list-group-item:hover .material-icons {
+        opacity: 1;
+      }
+
+      /* ── Dashboard area (right) ─────────────────── */
+      .builder-main {
+        flex: 1;
+        min-width: 0;
+        padding: var(--space-5) var(--space-6);
+        display: flex;
+        flex-direction: column;
+        background: var(--color-bg);
+      }
+
+      .builder-main .section-label {
+        flex-shrink: 0;
       }
 
       .reveal-dash-board {
         width: 100%;
-        height: 100%;
+        flex: 1;
+        min-height: 0;
+        border-radius: var(--radius-lg) !important;
+        border-color: var(--color-border) !important;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        background: var(--color-surface);
+      }
+
+      /* ── Viz preview images ─────────────────────── */
+      .list-group-item img {
+        border-radius: var(--radius-sm);
+        opacity: 0.8;
       }
     </style>
   </head>
 
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar with list and single visualization -->
-        <div class="col-md-4 d-flex flex-column">
-          <div class="list-container">
-            <h5>Visualization List</h5>
-            <ul id="visualizationList" class="list-group scrollable-list"></ul>
-          </div>
-          <div class="single-viz-container">
-            <h5>Single Visualization</h5>
-            <div
-              id="revealSingleViz"
-              class="reveal-dash-board border rounded"
-            ></div>
-          </div>
+    <div class="builder-layout">
+      <!-- Left panel: viz list + preview -->
+      <div class="builder-sidebar">
+        <div class="list-container">
+          <div class="section-label">Visualization List</div>
+          <ul id="visualizationList" class="list-group scrollable-list"></ul>
         </div>
+        <div class="single-viz-container">
+          <div id="revealSingleViz" class="reveal-dash-board"></div>
+        </div>
+      </div>
 
-        <!-- Main content for the generated dashboard -->
-        <div class="col-md-8 generated-dashboard">
-          <h5 class="mt-2">Generated Dashboard</h5>
-          <div
-            id="revealDashboard"
-            class="reveal-dash-board border rounded"
-          ></div>
-        </div>
+      <!-- Right panel: generated dashboard -->
+      <div class="builder-main">
+        <div class="section-label">Generated Dashboard</div>
+        <div id="revealDashboard" class="reveal-dash-board"></div>
       </div>
     </div>
 
@@ -115,7 +202,7 @@
 
       async function fetchVisualizations() {
           try {
-              const response = await fetch(API_BASE_URL);
+              const response = await fetch(API_BASE_URL, { cache: 'no-store' });
               const visualizations = await response.json();
               populateVisualizationList(visualizations);
           } catch (error) {
@@ -165,6 +252,7 @@
           );
           revealView.dashboard = dashboard;
           revealView.singleVisualizationMode = true;
+          revealView.visualizationMargin = 0;
           revealView.maximizedVisualization = dashboard.visualizations.getById(
             viz.vizId
           );
@@ -226,6 +314,7 @@
               );
               revealView.dashboard = rvDashboard;
               revealView.startInEditMode = true;
+              revealView.canSave = false;
               revealView.canSaveAs = true;
 
               revealView.onSave = function(rv, args) {
@@ -233,12 +322,19 @@
                   if (!name) { args.saveFinished(); return; }
                   args.name = name;
                   args.saveFinished();
+                  fetchVisualizations();
               };
           } catch (error) {
               console.error("Error generating dashboard:", error);
           }
       }
       fetchVisualizations();
+
+      window.addEventListener('pageshow', function(event) {
+          if (event.persisted) {
+              fetchVisualizations();
+          }
+      });
     </script>
   </body>
 </html>
