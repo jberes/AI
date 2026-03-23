@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal AI Insights</title>
+    <link rel="stylesheet" href="insights.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="revealView"></div>
+        <div class="console-panel">
+            <div class="console-header">
+                <span>AI Insights Explanation</span>
+                <label class="streaming-toggle">
+                    <input type="checkbox" id="streamingToggle" checked>
+                    <span>Stream</span>
+                </label>
+            </div>
+            <div class="console-content" id="consoleOutput"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://dl.revealbi.io/reveal/libs/1.8.4/infragistics.reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@revealbi/api@1.0.5/dist/index.umd.js"></script>
+    <script src="insights.js"></script>
+
+    <script type="text/javascript">
+        // -- Reveal SDK Setup -----------------------------------------------------
+        $.ig.RevealSdkSettings.setBaseUrl("http://localhost:5111/");
+        rv.RevealSdkClient.initialize({ hostUrl: 'http://localhost:5111/' });
+
+        const client = rv.RevealSdkClient.getInstance();
+        var revealView;
+
+        // -- Build a Reveal context menu item that requests an AI Insight ---------
+        function createInsightMenuItem(label, dashboard, insightType, visualizationId = null) {
+            return new $.ig.RVMenuItem(label, null, async () => {
+                clearConsole();
+                const streamingEnabled = document.getElementById('streamingToggle').checked;
+
+                const options = { dashboard, type: insightType };
+                if (visualizationId) options.visualizationId = visualizationId;
+
+                if (streamingEnabled) {
+                    const stream = await client.ai.insights.get({ ...options, stream: true });
+                    stream.on('progress', (message) => appendToConsole(`*${message}*\n\n`, true));
+                    stream.on('text',     (content)  => appendToConsole(content, true));
+                    await stream.finalResponse();
+                } else {
+                    const result = await client.ai.insights.get(options);
+                    appendToConsole(result.explanation);
+                }
+            });
+        }
+
+        // -- Load dashboard and wire AI Insight menu items ------------------------
+        $.ig.RVDashboard.loadDashboard("Sales", async (dashboard) => {
+            revealView = new $.ig.RevealView("#revealView");
+            revealView.canEdit = false;
+            revealView.canSaveAs = false;
+            revealView.showRefresh = false;
+            revealView.canCopyVisualization = false;
+            revealView.dashboard = dashboard;
+
+            revealView.onMenuOpening = function (visualization, args) {
+                if (args.menuLocation === $.ig.RVMenuLocation.Dashboard) {
+                    args.menuItems.push(createInsightMenuItem("Dashboard Summary",  dashboard, 'summary'));
+                    args.menuItems.push(createInsightMenuItem("Dashboard Analysis", dashboard, 'analysis'));
+                    args.menuItems.push(createInsightMenuItem("Dashboard Forecast", dashboard, 'forecast'));
+                }
+                if (args.menuLocation === $.ig.RVMenuLocation.Visualization) {
+                    args.menuItems.push(createInsightMenuItem("Visualization Summary",  dashboard, 'summary',  visualization.id));
+                    args.menuItems.push(createInsightMenuItem("Visualization Analysis", dashboard, 'analysis', visualization.id));
+                    args.menuItems.push(createInsightMenuItem("Visualization Forecast", dashboard, 'forecast', visualization.id));
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

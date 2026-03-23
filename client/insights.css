@@ -1,0 +1,91 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#revealView {
+    flex: 1;
+    height: 100%;
+    min-width: 0;
+}
+
+.console-panel {
+    flex: 0 0 600px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+    overflow: hidden;
+}
+
+.console-header {
+    padding: 10px 15px;
+    background: #2c3e50;
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.streaming-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.streaming-toggle input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.console-content {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: white;
+}
+
+.console-content h1,
+.console-content h2,
+.console-content h3 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.console-content p {
+    margin: 0.5em 0;
+    line-height: 1.6;
+}
+
+.console-content code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+}
+
+.console-content pre {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.console-content ul,
+.console-content ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+}

@@ -1,0 +1,27 @@
+{
+  "Datasources": [
+    {
+      "Id": "NorthwindCloud",
+      "Provider": "SQLServer",
+      "Databases": [
+        {
+          "Name": "Northwind",
+          "DiscoveryMode": "Default",
+          "Tables": [
+            {
+              "Name": "dbo.Orders",
+              "Description": "Customer purchase orders",
+              "Fields": [
+                {
+                  "Name": "OrderDate",
+                  "Alias": "Order Date",
+                  "Description": "Date the order was placed"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

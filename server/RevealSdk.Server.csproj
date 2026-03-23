@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Reveal.Sdk.AI.Anthropic" Version="1.1.8-preview" />
+    <PackageReference Include="Reveal.Sdk.AI.AspNetCore" Version="1.1.8-preview" />
+    <PackageReference Include="Reveal.Sdk.AI.AzureOpenAI" Version="1.1.8-preview" />
+    <PackageReference Include="Reveal.Sdk.AI.OpenAI" Version="1.1.8-preview" />
+    <PackageReference Include="Reveal.Sdk.AspNetCore" Version="1.8.4" />
+    <PackageReference Include="Reveal.Sdk.Data.Microsoft.SqlServer" Version="1.8.4" />
+    <PackageReference Include="Reveal.Sdk.Dom" Version="0.1.668-beta" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Dashboards\OrdersSql.rdash">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

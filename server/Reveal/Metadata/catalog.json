@@ -1,0 +1,28 @@
+{
+  "Datasources": [
+    {
+      "Id": "NorthwindDB",
+      "Provider": "SQLServer",
+      "Databases": [
+        {
+          "Name": "NorthwindCloud",
+          "DiscoveryMode": "Restricted",
+          "Tables": [
+            {
+              "Name": "dbo.OrderAnalysis",
+              "Description": "All Customer / Order details"
+            },
+            {
+              "Name": "dbo.[ProductSummary]",
+              "Description": "Product summary information"
+            },
+            {
+              "Name": "dbo.[EmployeeDetailsExtended]",
+              "Description": "Employee details and extended information (like sales, order count, etc.)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
