@@ -31,6 +31,12 @@
                     <span>AI Insights</span>
                 </div>
                 <div class="insights-panel-controls">
+                    <button type="button" class="icon-btn" id="copyBtn" title="Copy to clipboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                        </svg>
+                    </button>
                     <label class="streaming-toggle">
                         <input type="checkbox" id="streamingToggle" checked>
                         <span>Stream</span>
@@ -94,8 +100,8 @@
 
                 if (streamingEnabled) {
                     const stream = await client.ai.insights.get({ ...options, stream: true });
-                    stream.on('progress', (message) => appendToConsole(`*${message}*\n\n`, true));
-                    stream.on('text',     (content)  => appendToConsole(content, true));
+                    stream.on('progress', (message) => updateProgress(message));
+                    stream.on('text',     (content)  => appendContent(content));
                     await stream.finalResponse();
                 } else {
                     const result = await client.ai.insights.get(options);
@@ -105,7 +111,7 @@
         }
 
         // -- Load dashboard and wire AI Insight menu items --------------------------
-        $.ig.RVDashboard.loadDashboard("Sales", async (dashboard) => {
+        $.ig.RVDashboard.loadDashboard("Manufacturing", async (dashboard) => {
             revealView = new $.ig.RevealView("#revealView");
             revealView.canEdit = false;
             revealView.canSaveAs = false;

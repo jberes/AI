@@ -35,7 +35,7 @@
         // Layout
         theme.highlightColor     = "#4F46E5";
         theme.useRoundedCorners  = true;
-        theme.visualizationMargin = 6;
+        theme.visualizationMargin = 3;
 
         $.ig.RevealSdkSettings.theme = theme;
     }
