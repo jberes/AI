@@ -1,7 +1,6 @@
 {
   "permanent": [
     "If the user requests data from a table or field not available in the table/field list, trigger a clarificationrequest asking the user to review the prompt.",
-    "Return all explanations in Spanish.", 
     "Only when writing the explanation, use the field names, ignoring the table and schema"
   ],
   "dynamic": {
